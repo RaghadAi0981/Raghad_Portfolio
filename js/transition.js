@@ -61,6 +61,10 @@
     }
 
     function handleLinkClick(event) {
+        if (event.defaultPrevented) return;
+        if (event.button !== 0) return;
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
         const link = event.currentTarget;
         if (!shouldHandleLink(link)) return;
         event.preventDefault();
