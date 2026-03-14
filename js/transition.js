@@ -71,11 +71,7 @@
         const href = link.getAttribute('href');
 
         const navigate = () => {
-            if (window.spaNavigate) {
-                window.spaNavigate(href);
-            } else {
-                window.location.href = href;
-            }
+            window.location.href = href;
         };
 
         if (window.gsap) {

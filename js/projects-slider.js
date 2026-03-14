@@ -17,19 +17,23 @@ function initProjectsSlider() {
   let index = 0;
   const maxIndex = () => Math.max(0, cards.length - getVisibleCount());
 
-  // توليد النقاط
   const dotsWrap = slider.querySelector('.proj-dots');
-  dotsWrap.innerHTML = '';
-  const dots = Array.from({ length: maxIndex() + 1 }, (_, i) => {
-    const b = document.createElement('button');
-    if (i === 0) b.classList.add('active');
-    dotsWrap.appendChild(b);
-    b.addEventListener('click', () => goTo(i));
-    return b;
-  });
+  let dots = [];
+
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    dots = Array.from({ length: maxIndex() + 1 }, (_, i) => {
+      const b = document.createElement('button');
+      if (i === index) b.classList.add('active');
+      dotsWrap.appendChild(b);
+      b.addEventListener('click', () => goTo(i));
+      return b;
+    });
+  }
 
   function update() {
-    const cardWidth = cards[0].getBoundingClientRect().width + 28; // + gap
+    const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || 0);
+    const cardWidth = cards[0].getBoundingClientRect().width + gap;
     track.style.transform = `translateX(${-index * cardWidth}px)`;
     dots.forEach((d, i) => d.classList.toggle('active', i === index));
     prev.disabled = index === 0;
@@ -44,24 +48,13 @@ function initProjectsSlider() {
   prev.addEventListener('click', () => goTo(index - 1));
   next.addEventListener('click', () => goTo(index + 1));
   window.addEventListener('resize', () => {
-    // أعد بناء النقاط عند تغيير عدد العناصر الظاهرة
-    const oldLen = dots.length;
     const needed = maxIndex() + 1;
-    if (needed !== oldLen) {
-      dotsWrap.innerHTML = '';
-      const nd = Array.from({ length: needed }, (_, i) => {
-        const b = document.createElement('button');
-        if (i === index) b.classList.add('active');
-        dotsWrap.appendChild(b);
-        b.addEventListener('click', () => goTo(i));
-        return b;
-      });
-      nd.forEach((d,i)=> d.classList.toggle('active', i===index));
-    }
+    if (needed !== dots.length) buildDots();
+    index = Math.min(index, maxIndex());
     update();
   });
 
-  // أول تحديث
+  buildDots();
   update();
 }
 

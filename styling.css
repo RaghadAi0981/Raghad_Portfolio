@@ -273,9 +273,6 @@ h1::selection, h2::selection, p::selection { color: black; background: var(--pri
   align-items: center;
   justify-content: space-between;
 }
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
 .project-links a{ order: 1; }
 .project-date{
   font-size: 0.85rem;
@@ -284,12 +281,6 @@ h1::selection, h2::selection, p::selection { color: black; background: var(--pri
   order: 2;
   margin-left: auto;
 }
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
 .project-links i{
   font-size: 1.25rem;
   color: #475569;
